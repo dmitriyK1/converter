@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <converter></converter>
+
+  <script src="https://code.angularjs.org/1.4.8/angular.js"></script>
+  <script>
+    (function() {
+      angular
+        .module('app', [])
+        .directive('converter', converterDirective)
+        .factory('converterService', converterService)
+        .controller('ConverterCtrl', ConverterCtrl);
+
+      function converterDirective() {
+        return {
+          templateUrl: 'converter.directive.html',
+          controller: ConverterCtrl,
+          controllerAs: 'converterCtrl'
+        };
+      }
+
+      function ConverterCtrl(converterService) {
+        var vm = this;
+
+        vm.convert = convert;
+
+        function convert(value) {
+          if (!value) return;
+
+          vm.rub = converterService.calculate(value);
+        }
+      }
+
+      function converterService() {
+        var service = {
+          calculate: calculate
+        };
+
+        return service;
+
+        function calculate(value) {
+          var result = value * 78.79;
+          return result.toFixed(2);
+        }
+      }
+
+    })();
+  </script>
+
+</body>
+
+</html>
